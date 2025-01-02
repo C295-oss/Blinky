@@ -40,7 +40,27 @@ run cargo embed and ou should get "Hello, world!"
 
 ## Debuging with GDB:
 
+For the use of GDB, download an [ARM GNU toolchain]{https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads} from ARMS' website. It should be under AArch32 bare-metal target (arm-none-eabi). 
+<br>
+<br>
+Afterwards, go into Embed.toml and paste the following:
+```
+[default.gdb]
+enabled = true
 
+[default.reset]
+halt_afterwards = true
+```
+If you have rtt-target enabled, set it to false.
+<br>
+<br>
+When you run cargo embed, a gdb stub should constantly loop. In another terminal, to run gdb, type the following:
+```
+arm-none-eabi-gdb target/thumbv7em-none-eabihf/debug/[file_name]
+```
+You can connect to the gdb stub by typing ```target remote [Port GDB stub listening at]```.
+<br>
+Afterwards, you should be set.
 
 ## Different Microcontrollers
 
