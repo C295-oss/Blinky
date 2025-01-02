@@ -1,6 +1,46 @@
 # Guide for connecting STM32G407VGTx to rust script
 
-This is mostly based on the Embedded Rust Book, however there were some changes as cargo-embed is now part of probe-rs' group of tools. Probe-rs is useful for programming to the MCU as well as debugging. I also added the MCU datasheet and documentation which is needed for memory.x.
+This is mostly based on the Embedded Rust Book and the youtube video linked at the bottom of the page, however there were some changes as cargo-embed is now part of probe-rs' group of tools. Probe-rs is useful for programming to the MCU as well as debugging. I also added the MCU datasheet and documentation which is needed for memory.x.
+
+## Debuging with rtt-target:
+Crate page: https://crates.io/crates/rtt-target
+<br>
+<br>
+rtt-target is a real time transfer I/O protocal that creates output via a debug probe. It may be preferable to use rtt-target as there would be no delays and minimal blocking for real-time applications. A debug probe is a specialized hardware device that allows developers to control and monitor the execution of a program on a target device. It allows for logging on the microcontroller.
+<br>
+<br>
+Add the following:
+<br>
+```cargo add cortex-m --features critical-section-single-core```
+<br>
+```cargo add rtt-target```
+<br>
+<br>
+
+
+In Embed.toml, paste the following:
+```
+[default.rtt]
+enabled = true 
+```
+If you are using gdb, set it to false.
+<br>
+Your main.rs should look something like the following:
+```
+use rtt_target::{rtt_init_print, rprintln};
+
+fn main() {
+    rtt_init_print!();
+    loop {
+        rprintln!("Hello, world!");
+    }
+}
+```
+run cargo embed and ou should get "Hello, world!" 
+
+## Debuging with GDB:
+
+
 
 ## Different Microcontrollers
 
@@ -20,7 +60,12 @@ section                size         addr
 Within .cargo/config.toml, the chip that is being used also needs to be specified within target, as well as the GNU. Cortex-M4 uses thumbv7em-none-eabihf, however you can find the different targets on this [Platform Support]{https://doc.rust-lang.org/rustc/platform-support.html} page.
 
 ## Resources
+https://www.youtube.com/watch?v=TOAynddiu5M
+
 https://docs.rust-embedded.org/book
+
 https://crates.io/crates/cortex-m-rt
+
 https://probe.rs/
+
 https://probe.rs/targets/?manufacturer=STMicroelectronics&family=SHOW_ALL_FAMILIES
