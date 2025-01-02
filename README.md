@@ -2,7 +2,7 @@
 
 This is mostly based on the Embedded Rust Book, however there were some changes as cargo-embed is now part of probe-rs' group of tools. Probe-rs is useful for programming to the MCU as well as debugging. I also added the MCU datasheet and documentation which is needed for memory.x.
 
-## Different Chips
+## Different Microcontrollers
 
 For different boards, It is important memory.x is has corrected info. FLASH and RAM can be found on the manufacturer's website as well as their datasheets. You can also find the origin of RAM by typing ```cargo size -- -Ax```. Heres an example output:
 <br>
